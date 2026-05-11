@@ -1,7 +1,12 @@
 import { Link, NavLink } from "react-router-dom";
 import logo from "../../../assets/images/logo.svg";
+import AuthModals from "../auth/authModal";
+import { useState } from "react";
 
 const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [signUpOpen, setSignUpOpen] = useState(false);
+
   return (
     <nav className="shadow-lg sticky top-0 z-80 bg-neutral-0">
       <div className=" max-w-7xl mx-auto flex justify-between items-center ">
@@ -67,6 +72,7 @@ const Navbar = () => {
             Browse recipes
           </NavLink>
           <Link
+            onClick={() => setIsOpen(true)}
             to="/sign-in"
             className="btn text-preset-7 transition-all duration-200 
  
@@ -76,13 +82,24 @@ const Navbar = () => {
           >
             Sign In
           </Link>
-          <Link to="/sign-up" className="btn text-preset-7 transition-all duration-200 
+          <Link
+            onClick={() => setSignUpOpen(true)}
+            to="/sign-up"
+            className="btn text-preset-7 transition-all duration-200 
  
   hover:scale-105 
   active:scale-95 
-  cursor-pointer btn-ghost btn-sm">
+  cursor-pointer btn-ghost btn-sm"
+          >
             Sign Up
           </Link>
+
+          <AuthModals
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+            signUpOpen={signUpOpen}
+            setSignUpOpen={setSignUpOpen}
+          />
         </div>
       </div>
     </nav>
