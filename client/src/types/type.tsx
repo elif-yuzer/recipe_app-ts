@@ -13,3 +13,12 @@ export interface SignInFormProps {
 export interface SignUpFormProps {
   setSignUpOpen: (value: boolean) => void
 }
+
+export interface UserState {
+  userName: string
+  email: string
+  password: string
+  setUserName: (userName: string) => void
+  setEmail: (email: string) => void
+  setPassword: (password: string) => void
+}
