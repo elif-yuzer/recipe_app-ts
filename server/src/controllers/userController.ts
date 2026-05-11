@@ -1,53 +1,43 @@
-
 import { Response, Request, NextFunction } from "express";
-import { UserInfo,handleLogin } from "../services/authService";
+import { UserInfo, handleLogin } from "../services/authService";
 
+import dotenv from "dotenv";
 
-import dotenv from 'dotenv'
-
-dotenv.config()
-
-
+dotenv.config();
 
 const postUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { firstName, lastName, email, password, role } = req.body;
-    
-    
-    const user = await UserInfo(firstName, lastName, email, password)
+
+    const user = await UserInfo(firstName, lastName, email, password);
 
     res.status(201).json({
       success: true,
-      data:user,
+      data: user,
     });
   } catch (error) {
     next(error);
   }
 };
 
-
-const UserLogin=async(req:Request,res:Response,next:NextFunction)=>{
+const UserLogin = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const {email,password}=req.body
+    const { email, password, username } = req.body;
 
-    const {  accessToken, refreshToken } = await handleLogin(email, password);
+    const { accessToken, refreshToken } = await handleLogin(
+      email,
+      password,
+      username,
+    );
 
-  
-   res.cookie('jwt',refreshToken, {httpOnly:true,maxAge:24*60*60*1000})
-    res.json({accessToken})
-
-    
+    res.cookie("jwt", refreshToken, {
+      httpOnly: true,
+      maxAge: 24 * 60 * 60 * 1000,
+    });
+    res.json({ accessToken });
   } catch (error) {
-    
-    next(error)
+    next(error);
   }
-}
+}; 
 
-
-
-
-
-
-
-
-export {postUser,UserLogin}
+export { postUser, UserLogin };
